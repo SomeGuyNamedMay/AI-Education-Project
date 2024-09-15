@@ -1,0 +1,5 @@
+Flask==2.1.0
+Flask-SQLAlchemy==2.5.1
+python-dotenv==0.19.2
+mysqlclient==2.1.0
+langchain==0.0.150
