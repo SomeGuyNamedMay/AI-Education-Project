@@ -51,17 +51,11 @@ def create_app():
         app.logger.info('ACM Education startup')
 
     # Import and register blueprints
-    from .routes.user_routes import user_bp
-    from .routes.course_routes import course_bp
-    from .routes.exam_routes import exam_bp
-    from .routes.ai_routes import ai_bp
-    from .routes.main_routes import main_bp
+    from .routes import all_blueprints
 
-    app.register_blueprint(user_bp, url_prefix='/api')
-    app.register_blueprint(course_bp, url_prefix='/api')
-    app.register_blueprint(exam_bp, url_prefix='/api')
-    app.register_blueprint(ai_bp, url_prefix='/api')
-    app.register_blueprint(main_bp)
+    for bp in all_blueprints:
+        app.register_blueprint(bp, url_prefix='/api' if bp.name != 'main_bp' else '/')
+
 
     # Create all database tables
     with app.app_context():

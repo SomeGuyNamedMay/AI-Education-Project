@@ -5,7 +5,7 @@ It defines a Flask Blueprint for AI-related routes and includes functions for
 AI data processing.
 """
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 
 # import related ai models here
 # example..... from ..models import AIModel, db
@@ -39,7 +39,11 @@ def process_data():
     Returns:
         flask.Response: A JSON response containing the result of AI processing.
     """
-    data = request.json
-    # Perform AI-related processing
-    result = example_ai_processing(data)
-    return jsonify(result)
+    try:
+        data = request.json
+        current_app.logger.info('Processing data with AI')
+        result = example_ai_processing(data)
+        return jsonify(result), 200
+    except Exception as e:
+        current_app.logger.error(f'Error during AI processing: {str(e)}')
+        return jsonify({'error': str(e)}), 500

@@ -5,7 +5,7 @@ It defines a Flask Blueprint for the main routes and includes functions for
 handling the home page and other general-purpose routes.
 """
 
-from flask import Blueprint
+from flask import Blueprint, jsonify, current_app
 
 main_bp = Blueprint('main_bp', __name__)
 
@@ -19,4 +19,5 @@ def home():
     Returns:
         str: A welcome message for the API.
     """
-    return "Welcome to the API"
+    current_app.logger.info('Home page accessed')
+    return jsonify({"message": "Welcome to the API"}), 200
